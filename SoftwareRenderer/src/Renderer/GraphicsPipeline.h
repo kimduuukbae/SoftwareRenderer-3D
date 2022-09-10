@@ -1,6 +1,5 @@
 #pragma once
 
-
 // Forward Declaration //
 
 class GraphicsRenderOption;
