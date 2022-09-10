@@ -11,8 +11,6 @@ class GraphicsPixelShader;
 
 class GraphicsPipeline {
 public:
-	void Execute();
-
 	void SetGraphicsRenderOption(GraphicsRenderOption* option);
 	void SetGraphicsInputAssembler(GraphicsInputAssembler* inputAssembler);
 	void SetGraphicsVertexShader(GraphicsVertexShader* vertexShader);
