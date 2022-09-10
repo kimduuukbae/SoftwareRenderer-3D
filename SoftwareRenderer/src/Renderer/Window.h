@@ -2,9 +2,9 @@
 
 #include <Windows.h>
 #include "CommonHeader.h"
+#include "Resource.h"
 
-
-class Window {
+class Window : public Resource {
 public:
 	//Factory
 
@@ -12,7 +12,7 @@ public:
 	
 	//Member Function
 
-	void AddProcCallback(std::function<void(int, int)>&& callback);
+	void AddProcCallback(std::function<LRESULT(HWND,UINT,WPARAM,LPARAM)>&& callback);
 
 private:
 	HWND __handle;

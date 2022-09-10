@@ -1,12 +1,15 @@
 #include "Window.h"
 #include <format>
 
+//	추후 resourceManager가 얘를 가져갈거임
+std::vector<Window*> managedWindows;
+
 LRESULT __MainWndPoc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam) {
 	return DefWindowProc(handle, msg, wParam, lParam);
 }
 
 Window* Window::CreateWindowFactory(HINSTANCE hInstance, const std::wstring_view& windowName, uint32_t width, uint32_t height) {
-	Window* window{ new Window{} };
+	Window* window{ managedWindows.emplace_back(new Window{}) };
 
 	SetLastError(99);
 
@@ -45,6 +48,10 @@ Window* Window::CreateWindowFactory(HINSTANCE hInstance, const std::wstring_view
 	return window;
 }
 
-void Window::AddProcCallback(std::function<void(int, int)>&& callback){
-
+void Window::AddProcCallback(std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)>&& callback){
+	for (auto& it : managedWindows) {
+		if(it->__resourceID == this->__resourceID)
+			i
+	}
 }
+
