@@ -49,9 +49,9 @@ Window* Window::CreateWindowFactory(HINSTANCE hInstance, const std::wstring_view
 }
 
 void Window::AddProcCallback(std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)>&& callback){
-	for (auto& it : managedWindows) {
+	/*for (auto& it : managedWindows) {
 		if(it->__resourceID == this->__resourceID)
 			i
-	}
+	}*/
 }
 

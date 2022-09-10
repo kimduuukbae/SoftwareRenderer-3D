@@ -1,7 +1,6 @@
 #include <iostream>
 #include <thread>
-#include "Renderer/Window.h"
-#include "Math/Matrix.h"
+#include "Resources/Window.h"
 
 using namespace std;
 
