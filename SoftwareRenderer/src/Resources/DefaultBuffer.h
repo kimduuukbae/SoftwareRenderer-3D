@@ -3,5 +3,6 @@
 #include "BufferBase.h"
 
 class DefaultBuffer : public BufferBase {
-
+public:
+	DefaultBuffer();
 };

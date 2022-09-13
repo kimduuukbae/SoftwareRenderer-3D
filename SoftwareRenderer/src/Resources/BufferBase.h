@@ -5,7 +5,8 @@
 
 class BufferBase : public Resource {
 
-private:
+
+protected:
 	uint64_t __bufferSize;
 	void* __buffer;
 

@@ -5,10 +5,10 @@
 class Resource{
 public:
 	Resource() = default;
-	~Resource() = default;
+	virtual ~Resource() = default;
 
 	uint64_t __resourceID;
-private:
-	
+protected:
+	void* __resource;
 };
 
