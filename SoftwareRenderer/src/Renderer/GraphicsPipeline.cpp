@@ -5,6 +5,10 @@
 #include "GraphicsVertexShader.h"
 #include "GraphicsPixelShader.h"
 
+void GraphicsPipeline::SetGraphicsCommandQueue(GraphicsCommandQueue* queue)
+{
+}
+
 void GraphicsPipeline::SetGraphicsRenderOption(GraphicsRenderOption* option) {
 
 }

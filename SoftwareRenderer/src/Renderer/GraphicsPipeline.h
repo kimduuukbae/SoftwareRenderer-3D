@@ -27,4 +27,6 @@ private:
 	GraphicsVertexShader* __vertexShader;
 	GraphicsRasterizer* __rasterizer;
 	GraphicsPixelShader* __pixelShader;
+
+	friend class GraphicsPipelineObject;
 };
