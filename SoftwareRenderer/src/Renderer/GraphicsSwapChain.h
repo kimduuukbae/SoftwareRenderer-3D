@@ -2,6 +2,13 @@
 
 class GraphicsSwapChain {
 public:
+	void CreateSwapChain(int swapChainCount);
+	void SetWindow(class Window* window);
+	void Present();
+
+	class Window* GetWindoW() const;
+	class DefaultBuffer* GetBackBuffer() const;
+
 
 private:
 	class DefaultBuffer* __backBuffer;
