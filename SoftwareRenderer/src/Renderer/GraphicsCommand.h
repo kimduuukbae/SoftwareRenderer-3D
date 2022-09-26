@@ -12,5 +12,5 @@ public:
 	void DrawIndexed();
 
 private:
-	class GraphicsCommandQueue* commandQueue;
+	class GraphicsCommandQueue* __commandQueue;
 };
