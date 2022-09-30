@@ -15,10 +15,6 @@ public:
 	void	DrawVertex();
 	void	DrawIndexed(class BufferBase* buffer, int bufferSize);
 
-	/* Rendering */
-	void	Present();
-	bool	IsPreparePresent();	// for multicore
-
 private:
 	class GraphicsCommandQueue* __commandQueue;
 };

@@ -38,7 +38,3 @@ void GraphicsCommand::DrawIndexed(BufferBase* buffer, int bufferSize){
 
 	__commandQueue->DrawIndices();
 }
-
-void GraphicsCommand::Present() {
-	
-}

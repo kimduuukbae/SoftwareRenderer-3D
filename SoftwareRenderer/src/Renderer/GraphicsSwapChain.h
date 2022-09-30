@@ -6,6 +6,8 @@ public:
 	void SetWindow(class Window* window);
 	void Present();
 
+	bool IsCompletePresent();
+
 	class Window* GetWindoW() const;
 	class DefaultBuffer* GetBackBuffer() const;
 
