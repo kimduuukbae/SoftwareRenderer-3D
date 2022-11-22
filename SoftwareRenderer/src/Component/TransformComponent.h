@@ -15,7 +15,10 @@ private:
 	// resource == x, y, z
 	void UpdateMatrix();
 
-
-	Vector3 position{};
 	Matrix __worldMatrix4x4{};
+
+	// euler 
+	Vector3 position{};
+	Vector3 rotation{};
+	Vector3 scale{};
 };
