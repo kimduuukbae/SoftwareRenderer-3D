@@ -9,16 +9,19 @@ public:
 	TransformComponent();
 	virtual ~TransformComponent();
 
-	void SetPosition();
+	void SetPosition(const Vector3& pos);
+	void SetRotation(const Vector3& euler);
+	void SetScale(const Vector3& scale);
 
 private:
 	// resource == x, y, z
 	void UpdateMatrix();
 
-	Matrix __worldMatrix4x4{};
+	Matrix __worldMatrix4x4 {};
 
 	// euler 
-	Vector3 position{};
-	Vector3 rotation{};
-	Vector3 scale{};
+
+	Vector3 __position { 0.0f, 0.0f, 0.0f };
+	Vector3 __rotation { 0.0f, 0.0f, 0.0f };
+	Vector3 __scale	   { 1.0f, 1.0f, 1.0f };
 };

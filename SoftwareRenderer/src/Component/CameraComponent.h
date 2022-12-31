@@ -6,7 +6,6 @@
 
 class CameraComponent : public ComponentBase {
 public:
-	Matrix GetWorldMatrix() const;
 	Matrix GetViewMatrix() const;
 	Matrix GetClipMatrix() const;
 

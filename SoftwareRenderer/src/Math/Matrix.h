@@ -17,6 +17,10 @@ struct Matrix {
 	Matrix() = default;
 	Matrix(const Vector4& newX, const Vector4& newY, const Vector4& newZ, const Vector4& newW);
 	Matrix(const Vector3& newX, const Vector3& newY, const Vector3& newZ);
+	Matrix(float m11, float m12, float m13, float m14,
+		   float m21, float m22, float m23, float m24,
+		   float m31, float m32, float m33, float m34,
+		   float m41, float m42, float m43, float m44);
 
 	inline Matrix operator*(const Matrix& other) const;
 	inline Matrix operator+(const Matrix& other) const;
@@ -48,6 +52,16 @@ Matrix::Matrix(const Vector3& newX, const Vector3& newY, const Vector3& newZ) {
 	memcpy(m[0], &newX, sizeof(Vector3));
 	memcpy(m[1], &newY, sizeof(Vector3));
 	memcpy(m[2], &newZ, sizeof(Vector3));
+}
+
+Matrix::Matrix(float m11, float m12, float m13, float m14,
+			   float m21, float m22, float m23, float m24,
+			   float m31, float m32, float m33, float m34,
+			   float m41, float m42, float m43, float m44) {
+	m[0][0] = m11; m[0][1] = m12; m[0][2] = m13; m[0][3] = m14;
+	m[1][0] = m21; m[1][1] = m22; m[1][2] = m23; m[1][3] = m24;
+	m[2][0] = m31; m[2][1] = m32; m[2][2] = m33; m[2][3] = m34;
+	m[3][0] = m41; m[3][1] = m42; m[3][2] = m43; m[3][3] = m44;
 }
 
 Matrix Matrix::operator*(const Matrix& other) const {
