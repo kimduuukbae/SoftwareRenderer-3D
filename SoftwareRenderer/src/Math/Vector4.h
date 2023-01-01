@@ -29,10 +29,10 @@ __declspec(align(16)) struct Vector4 {
 	};
 
 
-	Vector4();
-	Vector4(float x, float y, float z, float w);
-	explicit Vector4(const Vector3& newVector, float newW);
-	explicit Vector4(const Vector4& newVector);
+	inline Vector4();
+	inline Vector4(float x, float y, float z, float w);
+	inline explicit Vector4(const Vector3& newVector, float newW);
+	inline explicit Vector4(const Vector4& newVector);
 
 	/* element operations */
 	inline void Add(const Vector4& other);
@@ -76,22 +76,22 @@ __declspec(align(16)) struct Vector4 {
 using Color = Vector4;
 
 
-Vector4::Vector4() : 
+inline Vector4::Vector4() : 
 	Vector4{ 0.0f, 0.0f, 0.0f, 1.0f } {}
 
-Vector4::Vector4(float x, float y, float z, float w) :
+inline Vector4::Vector4(float x, float y, float z, float w) :
 	x{ x },
 	y{ y },
 	z{ z },
 	w{ w } {}
 
-Vector4::Vector4(const Vector3& newVector, float newW = 1.0f) :
+inline Vector4::Vector4(const Vector3& newVector, float newW = 1.0f) :
 	x{ newVector.x },
 	y{ newVector.y },
 	z{ newVector.z },
 	w{ newW } {}
 
-Vector4::Vector4(const Vector4& newVector) : 
+inline Vector4::Vector4(const Vector4& newVector) : 
 	x{ newVector.x },
 	y{ newVector.y },
 	z{ newVector.z },

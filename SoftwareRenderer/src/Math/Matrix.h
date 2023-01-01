@@ -14,10 +14,10 @@ struct Matrix {
 
 	alignas(16) float m[4][4]{};
 
-	Matrix() = default;
-	Matrix(const Vector4& newX, const Vector4& newY, const Vector4& newZ, const Vector4& newW);
-	Matrix(const Vector3& newX, const Vector3& newY, const Vector3& newZ);
-	Matrix(float m11, float m12, float m13, float m14,
+	inline Matrix() = default;
+	inline Matrix(const Vector4& newX, const Vector4& newY, const Vector4& newZ, const Vector4& newW);
+	inline Matrix(const Vector3& newX, const Vector3& newY, const Vector3& newZ);
+	inline Matrix(float m11, float m12, float m13, float m14,
 		   float m21, float m22, float m23, float m24,
 		   float m31, float m32, float m33, float m34,
 		   float m41, float m42, float m43, float m44);
@@ -41,20 +41,20 @@ struct Matrix {
 };
 
 
-Matrix::Matrix(const Vector4& newX, const Vector4& newY, const Vector4& newZ, const Vector4& newW) {
+inline Matrix::Matrix(const Vector4& newX, const Vector4& newY, const Vector4& newZ, const Vector4& newW) {
 	memcpy(m[0], &newX, sizeof(Vector4));
 	memcpy(m[1], &newY, sizeof(Vector4));
 	memcpy(m[2], &newZ, sizeof(Vector4));
 	memcpy(m[3], &newW, sizeof(Vector4));
 }
 
-Matrix::Matrix(const Vector3& newX, const Vector3& newY, const Vector3& newZ) {
+inline Matrix::Matrix(const Vector3& newX, const Vector3& newY, const Vector3& newZ) {
 	memcpy(m[0], &newX, sizeof(Vector3));
 	memcpy(m[1], &newY, sizeof(Vector3));
 	memcpy(m[2], &newZ, sizeof(Vector3));
 }
 
-Matrix::Matrix(float m11, float m12, float m13, float m14,
+inline Matrix::Matrix(float m11, float m12, float m13, float m14,
 			   float m21, float m22, float m23, float m24,
 			   float m31, float m32, float m33, float m34,
 			   float m41, float m42, float m43, float m44) {

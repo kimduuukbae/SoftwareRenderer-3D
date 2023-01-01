@@ -8,4 +8,5 @@ public:
 	virtual ~Actor();
 
 private:
+	class TransformComponent* __transform{ nullptr };
 };

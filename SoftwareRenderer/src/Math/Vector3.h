@@ -10,6 +10,9 @@ public:
 	float y{};
 	float z{};
 
+	inline Vector3();
+	inline Vector3(float inX, float inY, float inZ);
+
 	/* element operations */
 	inline void Add(const Vector3& other);
 	inline void Multiply(const Vector3& other);
@@ -63,19 +66,31 @@ inline const Vector3 Vector3::RightVector{ 1.0f, 0.0f, 0.0f };
 inline const Vector3 Vector3::LeftVector{ -1.0f, 0.0f, 0.0f };
 
 
-void Vector3::Add(const Vector3& other) {
+inline Vector3::Vector3() {
+	x = 0.0f;
+	y = 0.0f;
+	z = 0.0f;
+}
+
+inline Vector3::Vector3(float inX, float inY, float inZ){
+	x = inX;
+	y = inY;
+	z = inZ;
+}
+
+inline void Vector3::Add(const Vector3& other) {
 	x += other.x;
 	y += other.y;
 	z += other.z;
 }
 
-void Vector3::Multiply(const Vector3& other) {
+inline void Vector3::Multiply(const Vector3& other) {
 	x *= other.x;
 	y *= other.y;
 	z *= other.z;
 }
 
-void Vector3::Subtract(const Vector3& other) {
+inline void Vector3::Subtract(const Vector3& other) {
 	x -= other.x;
 	y -= other.y;
 	z -= other.z;
