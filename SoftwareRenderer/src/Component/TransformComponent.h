@@ -2,7 +2,7 @@
 
 #include "ComponentBase.h"
 #include "Vector3.h"
-#include "Matrix.h"
+#include "Matrix4x4.h"
 
 class TransformComponent : public ComponentBase {
 public:
@@ -17,7 +17,7 @@ private:
 	// resource == x, y, z
 	void UpdateMatrix();
 
-	Matrix __worldMatrix4x4 {};
+	Matrix4x4 __worldMatrix4x4 {};
 
 	// euler 
 

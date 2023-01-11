@@ -35,7 +35,7 @@ void TransformComponent::UpdateMatrix() {
 	float cosY{ std::cosf(__rotation.y) };	float sinY{ std::sinf(__rotation.y) };
 	float cosZ{ std::cosf(__rotation.z) };	float sinZ{ std::sinf(__rotation.z) };
 	
-	Matrix worldMat{
+	Matrix4x4 worldMat{
 		cosZ * cosY + sinZ * sinX * sinY,			sinZ * cosX,		cosZ * -sinY + sinZ * sinY * cosY,		 0,
 		-sinZ * cosY + sinY * cosZ * sinX,			cosZ * cosX,		sinZ * sinY + sinX * cosZ * cosY,		 0,
 		sinY * cosX,								-sinX,				cosX * cosY,							 0,
