@@ -38,3 +38,72 @@ struct Matrix3x3 {
 
 	inline static Matrix3x3 GetTranspose(const Matrix3x3& target);
 };
+
+
+inline Matrix3x3::Matrix3x3(const Matrix4x4& mat) {
+
+}
+
+inline Matrix3x3::Matrix3x3(const Vector3& newX, const Vector3& newY, const Vector3& newZ) {
+
+}
+
+inline Matrix3x3::Matrix3x3(
+	float m11, float m12, float m13,
+	float m21, float m22, float m23, 
+	float m31, float m32, float m33) {
+}
+
+inline Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const
+{
+	return Matrix3x3();
+}
+
+inline Matrix3x3 Matrix3x3::operator+(const Matrix3x3& other) const
+{
+	return Matrix3x3();
+}
+
+inline Matrix3x3 Matrix3x3::operator-(const Matrix3x3& other) const
+{
+	return Matrix3x3();
+}
+
+inline bool Matrix3x3::operator==(const Matrix3x3& other) const
+{
+	return false;
+}
+
+inline bool Matrix3x3::operator!=(const Matrix3x3& other) const
+{
+	return false;
+}
+
+inline float& Matrix3x3::operator()(size_t row, size_t column)
+{
+	// TODO: 여기에 return 문을 삽입합니다.
+}
+
+inline float Matrix3x3::operator()(size_t row, size_t column) const
+{
+	return 0.0f;
+}
+
+inline Matrix3x3 Matrix3x3::Inverse() const
+{
+	return Matrix3x3();
+}
+
+inline float Matrix3x3::GetDeterminant() const
+{
+	return 0.0f;
+}
+
+inline void Matrix3x3::Transpose()
+{
+}
+
+inline Matrix3x3 Matrix3x3::GetTranspose()
+{
+	return Matrix3x3();
+}
