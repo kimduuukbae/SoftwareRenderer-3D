@@ -41,11 +41,15 @@ struct Matrix3x3 {
 
 
 inline Matrix3x3::Matrix3x3(const Matrix4x4& mat) {
-
+	m[0][0] = mat(0, 0);	m[0][1] = mat(0, 1);	m[0][2] = mat(0, 2);
+	m[1][0] = mat(1, 0);	m[1][1] = mat(1, 1);	m[1][2] = mat(1, 2);
+	m[2][0] = mat(2, 0);	m[2][1] = mat(2, 1);	m[2][2] = mat(2, 2);
 }
 
 inline Matrix3x3::Matrix3x3(const Vector3& newX, const Vector3& newY, const Vector3& newZ) {
-
+	memcpy(m[0], &newX, sizeof(Vector3));
+	memcpy(m[1], &newY, sizeof(Vector3));
+	memcpy(m[1], &newZ, sizeof(Vector3));
 }
 
 inline Matrix3x3::Matrix3x3(
@@ -60,54 +64,86 @@ inline Matrix3x3::Matrix3x3(
 
 inline Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const
 {
-	return Matrix3x3();
+	Matrix3x3 newMat{};
+
+	for (std::size_t x = 0; x < 3; ++x) {
+		for (std::size_t y = 0; y < 3; ++y) {
+			newMat(x, y) = m[x][y] * other(x, y);
+		}
+	}
+
+	return newMat;
 }
 
 inline Matrix3x3 Matrix3x3::operator+(const Matrix3x3& other) const
 {
-	return Matrix3x3();
+	Matrix3x3 newMat{};
+
+	for (std::size_t x = 0; x < 3; ++x) {
+		for (std::size_t y = 0; y < 3; ++y) {
+			newMat(x, y) = m[x][y] + other(x, y);
+		}
+	}
+
+	return newMat;
 }
 
 inline Matrix3x3 Matrix3x3::operator-(const Matrix3x3& other) const
 {
-	return Matrix3x3();
+	Matrix3x3 newMat{};
+
+	for (std::size_t x = 0; x < 3; ++x) {
+		for (std::size_t y = 0; y < 3; ++y) {
+			newMat(x, y) = m[x][y] - other(x, y);
+		}
+	}
+
+	return newMat;
 }
 
 inline bool Matrix3x3::operator==(const Matrix3x3& other) const
 {
-	return false;
+	for (std::size_t x = 0; x < 3; ++x) {
+		for (std::size_t y = 0; y < 3; ++y) {
+			if (m[x][y] != other(x, y)) return false;
+		}
+	}
+
+	return true;
 }
 
-inline bool Matrix3x3::operator!=(const Matrix3x3& other) const
-{
-	return false;
+inline bool Matrix3x3::operator!=(const Matrix3x3& other) const {
+	return !(*this == other);
 }
 
-inline float& Matrix3x3::operator()(size_t row, size_t column)
-{
-	// TODO: 여기에 return 문을 삽입합니다.
+inline float& Matrix3x3::operator()(size_t row, size_t column) {
+	return m[row][column];
 }
 
-inline float Matrix3x3::operator()(size_t row, size_t column) const
-{
-	return 0.0f;
+inline float Matrix3x3::operator()(size_t row, size_t column) const {
+	return m[row][column];
 }
 
-inline Matrix3x3 Matrix3x3::Inverse() const
-{
+inline Matrix3x3 Matrix3x3::Inverse() const {
 	return Matrix3x3();
 }
 
-inline float Matrix3x3::GetDeterminant() const
-{
+inline float Matrix3x3::GetDeterminant() const {
 	return 0.0f;
 }
 
-inline void Matrix3x3::Transpose()
-{
+inline void Matrix3x3::Transpose() {
+	Matrix3x3 other{ *this };
+
+	m[0][0] = other(0, 0);	m[0][1] = other(1, 0);	m[0][2] = other(2, 0);
+	m[1][0] = other(0, 1);	m[1][1] = other(1, 1);	m[1][2] = other(2, 1);
+	m[2][0] = other(0, 2);	m[1][1] = other(1, 2);	m[1][2] = other(2, 2);
 }
 
 inline Matrix3x3 Matrix3x3::GetTranspose()
 {
-	return Matrix3x3();
+	Matrix3x3 newMat{ *this };
+	newMat.Transpose();
+
+	return newMat;
 }
