@@ -22,6 +22,7 @@ public:
 	inline Vector3 operator+(const Vector3& other);
 	inline Vector3 operator-(const Vector3& other);
 	inline Vector3 operator*(const Vector3& other);
+	inline Vector3 operator*(float scalar);
 	inline Vector3 operator/(const Vector3& other);
 	inline Vector3 operator/(float scalar);
 
@@ -106,6 +107,10 @@ Vector3 Vector3::operator-(const Vector3& other) {
 
 Vector3 Vector3::operator*(const Vector3& other) {
 	return { x * other.x, y * other.y, z * other.z };
+}
+
+inline Vector3 Vector3::operator*(float scalar) {
+	return { x * scalar, y * scalar, z * scalar };
 }
 
 Vector3 Vector3::operator/(const Vector3& other) {
