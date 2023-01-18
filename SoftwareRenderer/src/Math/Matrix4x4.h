@@ -113,7 +113,7 @@ bool Matrix4x4::operator!=(const Matrix4x4& other) const {
 	return !(*this == other);
 }
 
-inline float& Matrix4x4::operator()(size_t row, size_t column){
+inline float& Matrix4x4::operator()(size_t row, size_t column) {
 	return m[row][column];
 }
 
@@ -127,33 +127,33 @@ Matrix4x4 Matrix4x4::Inverse() const {
 
 float Matrix4x4::GetDeterminant() const {
 	Matrix3x3 a11 {
-		(1, 1), (1, 2), (1, 3),
-		(2, 1), (2, 2), (2, 3),
-		(3, 1), (3, 2), (3, 3),
+		m[1][1], m[1][2], m[1][3],
+		m[2][1], m[2][2], m[2][3],
+		m[3][1], m[3][2], m[3][3],
 	};
 
 	Matrix3x3 a12 {
-		(1, 0), (1, 2), (1, 3),
-		(2, 0), (2, 2), (2, 3),
-		(3, 0), (3, 2), (3, 3),
+		m[1][0], m[1][2], m[1][3],
+		m[2][0], m[2][2], m[2][3],
+		m[3][0], m[3][2], m[3][3],
 	};
 
 	Matrix3x3 a13 {
-		(1, 0), (1, 1), (1, 3),
-		(2, 0), (2, 1), (2, 3),
-		(3, 0), (3, 1), (3, 3),
+		m[1][0], m[1][1], m[1][3],
+		m[2][0], m[2][1], m[2][3],
+		m[3][0], m[3][1], m[3][3],
 	};
 
 	Matrix3x3 a14{
-		(1, 0), (1, 1), (1, 2),
-		(2, 0), (2, 1), (2, 2),
-		(3, 0), (3, 1), (3, 2),
+		m[1][0], m[1][1], m[1][2],
+		m[2][0], m[2][1], m[2][2],
+		m[3][0], m[3][1], m[3][2],
 	};
 
-	return  (0, 0) * a11.GetDeterminant() -
-			(0, 1) * a12.GetDeterminant() +
-			(0, 2) * a13.GetDeterminant() -
-			(0, 3) * a14.GetDeterminant();
+	return  m[0][0] * a11.GetDeterminant() -
+			m[0][1] * a12.GetDeterminant() +
+			m[0][2] * a13.GetDeterminant() -
+			m[0][3] * a14.GetDeterminant();
 }
 
 void Matrix4x4::Transpose() {
