@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Matrix4x4.h"
-
 struct Matrix3x3 {
 	/*  Row major Matrix
 			 m[row(x)][column(y)]
@@ -14,7 +12,6 @@ struct Matrix3x3 {
 	float m[3][3]{};
 
 	inline Matrix3x3() = default;
-	inline Matrix3x3(const Matrix4x4& mat);
 	inline Matrix3x3(const Vector3& newX, const Vector3& newY, const Vector3& newZ);
 	inline Matrix3x3
 	(float m11, float m12, float m13, 
@@ -49,15 +46,6 @@ struct Matrix3x3 {
 	inline static Matrix3x3 GetIdentity();
 
 };
-
-
-
-
-inline Matrix3x3::Matrix3x3(const Matrix4x4& mat) {
-	m[0][0] = mat(0, 0);	m[0][1] = mat(0, 1);	m[0][2] = mat(0, 2);
-	m[1][0] = mat(1, 0);	m[1][1] = mat(1, 1);	m[1][2] = mat(1, 2);
-	m[2][0] = mat(2, 0);	m[2][1] = mat(2, 1);	m[2][2] = mat(2, 2);
-}
 
 inline Matrix3x3::Matrix3x3(const Vector3& newX, const Vector3& newY, const Vector3& newZ) {
 	memcpy(m[0], &newX, sizeof(Vector3));
