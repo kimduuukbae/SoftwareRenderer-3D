@@ -10,8 +10,10 @@ public:
 	inline Quaternion(float realNumberW, float imaginaryI, float imaginaryJ, float imaginaryK);
 
 	inline Rotator ToEuler() const;
-	inline Vector3 ToVector() const;
 	inline Matrix4x4 ToMatrix() const;
+
+	inline float GetRealPart() const;
+	inline Vector3 GetImaginaryPart() const;
 
 	inline Quaternion GetConjugate();
 
@@ -19,17 +21,22 @@ public:
 	inline Quaternion operator+(const Quaternion& other);
 private:
 
-	float w, i, j, k;
+	float w{ 1.0f };
+	float x{ 0.0f };
+	float y{ 0.0f };
+	float z{ 0.0f };
 };
 
 Quaternion::Quaternion(float realNumberW, float imaginaryI, float imaginaryJ, float imaginaryK)
-	: w{ realNumberW }, i{ imaginaryI }, j{ imaginaryJ }, k{ imaginaryK }
+	: w{ realNumberW }, x{ imaginaryI }, y{ imaginaryJ }, z{ imaginaryK }
 {}
 
+float Quaternion::GetRealPart() const {
+	return w;
+}
 
-
-Vector3 Quaternion::ToVector() const {
-	return Vector3{ i, j, k };
+Vector3 Quaternion::GetImaginaryPart() const {
+	return Vector3{ x, y, z };
 }
 
 Quaternion Quaternion::operator*(const Quaternion& other) {
@@ -37,12 +44,12 @@ Quaternion Quaternion::operator*(const Quaternion& other) {
 
 	float real = {
 		w * other.w -
-		(ToVector() | other.ToVector())	// dot
+		(GetImaginaryPart() | other.GetImaginaryPart())	// dot
 	};
 
-	Vector3 arg1 = { other.ToVector() * w };
-	Vector3 arg2 = { ToVector() * other.w };
-	Vector3 arg3 = { ToVector() ^ other.ToVector() };	// cross
+	Vector3 arg1 = { other.GetImaginaryPart() * w };
+	Vector3 arg2 = { GetImaginaryPart() * other.w };
+	Vector3 arg3 = { GetImaginaryPart() ^ other.GetImaginaryPart() };	// cross
 
 	Vector3 imaginary = { arg1 + arg2 + arg3 };
 
@@ -52,8 +59,8 @@ Quaternion Quaternion::operator*(const Quaternion& other) {
 Quaternion Quaternion::operator+(const Quaternion& other) {
 	return Quaternion{
 		w + other.w,
-		i + other.i,
-		j + other.j,
-		k + other.k
+		x + other.x,
+		y + other.y,
+		z + other.z
 	};
 }
