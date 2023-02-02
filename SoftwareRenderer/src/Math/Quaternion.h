@@ -9,16 +9,25 @@ public:
 	inline Quaternion() = default;
 	inline Quaternion(float realNumberW, float imaginaryI, float imaginaryJ, float imaginaryK);
 
-	inline Rotator ToEuler() const;
+	inline void FromRotator(const Rotator& inRotator);
+	inline Rotator ToRotator() const;
+
+	inline void FromMatrix(const Matrix4x4& inMatrix);
 	inline Matrix4x4 ToMatrix() const;
 
 	inline float GetRealPart() const;
 	inline Vector3 GetImaginaryPart() const;
 
-	inline Quaternion GetConjugate();
+	inline Quaternion GetConjugate() const;
+
+	inline Quaternion Multiply(const Quaternion& other);
 
 	inline Quaternion operator*(const Quaternion& other);
+	inline Vector3 operator*(const Vector3& inVector);
 	inline Quaternion operator+(const Quaternion& other);
+
+	inline Vector3 RotateVector(const Vector3& inVector);
+
 private:
 
 	float w{ 1.0f };
@@ -39,8 +48,17 @@ Vector3 Quaternion::GetImaginaryPart() const {
 	return Vector3{ x, y, z };
 }
 
-Quaternion Quaternion::operator*(const Quaternion& other) {
-	// (w, i, j, k)(other.w, other.i, other.j, other.k)
+Quaternion Quaternion::GetConjugate() const {
+	return Quaternion{
+		w,
+		-x,
+		-y,
+		-z
+	};
+}
+
+Quaternion Quaternion::Multiply(const Quaternion& other) {
+	// (w, i, j, k)(other.w, other.i, other.j, other.k), 성분곱
 
 	float real = {
 		w * other.w -
@@ -56,6 +74,25 @@ Quaternion Quaternion::operator*(const Quaternion& other) {
 	return Quaternion{ real, imaginary.x, imaginary.y, imaginary.z };
 }
 
+Quaternion Quaternion::operator*(const Quaternion& other) {
+	// 두 개의 다른 각을 연속 회전 시키는 경우의 연산자
+	
+	Vector3 v1{ x, y, z };
+	Vector3 v2{ other.x, other.y, other.z };
+	Vector3 v = { v2 * w + v1 * other.w + (v1 ^ v2) };
+
+	return Quaternion{
+		w * other.w - (v1 | v2),
+		v.x,
+		v.y,
+		v.z
+	};
+}
+
+Vector3 Quaternion::operator*(const Vector3& inVector) {
+	return RotateVector(inVector);
+}
+
 Quaternion Quaternion::operator+(const Quaternion& other) {
 	return Quaternion{
 		w + other.w,
@@ -63,4 +100,12 @@ Quaternion Quaternion::operator+(const Quaternion& other) {
 		y + other.y,
 		z + other.z
 	};
+}
+
+Vector3 Quaternion::RotateVector(const Vector3& inVector) {
+	Vector3 q{ x, y, z };
+	Vector3 t{ (q ^ inVector) * 2.0f };
+	Vector3 result{ inVector + (t + w) + (q ^ t) };
+	
+	return result;
 }

@@ -19,12 +19,13 @@ public:
 	inline void Subtract(const Vector3& other);
 
 	/* add by components */
-	inline Vector3 operator+(const Vector3& other);
-	inline Vector3 operator-(const Vector3& other);
-	inline Vector3 operator*(const Vector3& other);
-	inline Vector3 operator*(float scalar);
-	inline Vector3 operator/(const Vector3& other);
-	inline Vector3 operator/(float scalar);
+	inline Vector3 operator+(const Vector3& other) const;
+	inline Vector3 operator+(float scalar) const;
+	inline Vector3 operator-(const Vector3& other) const;
+	inline Vector3 operator*(const Vector3& other) const;
+	inline Vector3 operator*(float scalar) const;
+	inline Vector3 operator/(const Vector3& other) const;
+	inline Vector3 operator/(float scalar) const;
 
 	/* cross product */
 	inline Vector3 operator^(const Vector3& other);
@@ -97,27 +98,31 @@ inline void Vector3::Subtract(const Vector3& other) {
 	z -= other.z;
 }
 
-Vector3 Vector3::operator+(const Vector3& other) {
+Vector3 Vector3::operator+(const Vector3& other) const {
 	return { x + other.x, y + other.y, z + other.z };
 }
 
-Vector3 Vector3::operator-(const Vector3& other) {
+Vector3 Vector3::operator+(float scalar) const {
+	return { x + scalar, y + scalar, z + scalar };
+}
+
+Vector3 Vector3::operator-(const Vector3& other) const {
 	return { x - other.x, y - other.y, z - other.z };
 }
 
-Vector3 Vector3::operator*(const Vector3& other) {
+Vector3 Vector3::operator*(const Vector3& other) const {
 	return { x * other.x, y * other.y, z * other.z };
 }
 
-inline Vector3 Vector3::operator*(float scalar) {
+inline Vector3 Vector3::operator*(float scalar) const {
 	return { x * scalar, y * scalar, z * scalar };
 }
 
-Vector3 Vector3::operator/(const Vector3& other) {
+Vector3 Vector3::operator/(const Vector3& other) const {
 	return { x / other.x, y / other.y, z / other.z };
 }
 
-Vector3 Vector3::operator/(float scalar) {
+Vector3 Vector3::operator/(float scalar) const {
 	return { x / scalar, y / scalar, z / scalar };
 }
 
