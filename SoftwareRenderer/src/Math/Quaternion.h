@@ -4,6 +4,8 @@
 #include "Matrix4x4.h"
 #include "Rotator.h"
 
+struct Rotator;
+
 class Quaternion {
 public:
 	inline Quaternion() = default;
@@ -39,6 +41,23 @@ private:
 Quaternion::Quaternion(float realNumberW, float imaginaryI, float imaginaryJ, float imaginaryK)
 	: w{ realNumberW }, x{ imaginaryI }, y{ imaginaryJ }, z{ imaginaryK }
 {}
+
+void Quaternion::FromRotator(const Rotator& inRotator){
+	Vector3 v = { inRotator.ToVector() };
+	
+	float cosPit = { std::cosf(v.x * 0.5f) }; float sinPit = { std::sinf(v.x * 0.5f) };
+	float cosYaw = { std::cosf(v.y * 0.5f) }; float sinYaw = { std::sinf(v.y * 0.5f) };
+	float cosRoll = { std::cosf(v.z * 0.5f) }; float sinRoll = { std::sinf(v.z * 0.5f) };
+
+	w = sinYaw * sinPit * sinRoll + cosYaw * cosPit * cosRoll;
+	x = sinYaw * sinRoll * cosPit + sinPit * cosYaw * cosRoll;
+	y = sinYaw * cosPit * cosRoll + sinPit * sinRoll * cosYaw;
+	z = -sinYaw * sinPit * cosRoll + sinRoll * cosYaw * cosPit;
+}
+
+Rotator Quaternion::ToRotator() const {
+
+}
 
 float Quaternion::GetRealPart() const {
 	return w;

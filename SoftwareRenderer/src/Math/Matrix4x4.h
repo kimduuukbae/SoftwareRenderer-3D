@@ -3,7 +3,7 @@
 #include "Vector4.h"
 #include "Matrix3x3.h"
 
-class Matrix3x3;
+struct Matrix3x3;
 
 struct Matrix4x4 {	
 	/*    Row major Matrix4x4
