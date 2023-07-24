@@ -15,6 +15,9 @@ public:
 	void	DrawVertex();
 	void	DrawIndexed(class BufferBase* buffer, int bufferSize);
 
+	/* Execute */
+	void	Execute();
+
 private:
 	class GraphicsCommandQueue* __commandQueue;
 };

@@ -9,8 +9,8 @@
 class GameObject {
 public:
 
-	GameObject();
-	virtual ~GameObject();
+	GameObject() = default;
+	virtual ~GameObject() = default;
 
 	template <typename T>
 	inline T* AddComponent();
@@ -34,7 +34,7 @@ template <typename T>
 inline T* GameObject::AddComponent() {
 	__components.push_back(new T{});
 
-	return __components.back();
+	return static_cast<T*>(__components.back());
 }
 
 template <typename T>

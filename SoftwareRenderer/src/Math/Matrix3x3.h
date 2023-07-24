@@ -1,5 +1,12 @@
 #pragma once
 
+
+/*
+	Comment : D3DX12와 SoftwareRenderer 에서 사용할 Matrix3x3
+	SIMD는 컴파일러가 알아서 처리해주니 지원하지 않음, Define만 추가해둠
+	XMMATRIX 같은것 (라이브러리) 사용할 수 있으나, 너무 무겁기도 하고 사용할 것들만 간추려서 새로 짜는게 나음
+*/
+
 struct Matrix3x3 {
 	/*  Row major Matrix
 			 m[row(x)][column(y)]

@@ -2,7 +2,7 @@
 #include "TransformComponent.h"
 
 Actor::Actor() {
-	__transform = AddComponent<TransformComponent>();
+	//__transform = AddComponent<TransformComponent>();
 }
 
 Actor::~Actor() {

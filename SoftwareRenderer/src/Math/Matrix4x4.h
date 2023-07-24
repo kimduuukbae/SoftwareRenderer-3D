@@ -36,6 +36,7 @@ struct Matrix4x4 {
 	inline float& operator()(size_t row, size_t column);
 	inline float operator()(size_t row, size_t column) const;
 	inline Matrix4x4 Inverse() const;
+	inline bool Invert();
 
 	inline float GetDeterminant() const;
 	inline void Transpose();
@@ -122,67 +123,83 @@ inline float Matrix4x4::operator()(size_t row, size_t column) const {
 }
 
 Matrix4x4 Matrix4x4::Inverse() const {
-    //this->Transpose();
+	Matrix4x4 m{ *this };
+	bool bIsSuccess = m.Invert();
 
+	if (bIsSuccess == false) {
+		constexpr auto nan = std::numeric_limits<float>::max();
 
-	
-    float sub3412 = m[2][0] * m[3][1] - m[2][1] * m[3][0];
-    float sub3413 = m[2][0] * m[3][2] - m[2][2] * m[3][0];
-    float sub3414 = m[2][0] * m[3][3] - m[2][3] * m[3][0];
-    float sub3423 = m[2][1] * m[3][2] - m[2][2] * m[3][1];
-    float sub3424 = m[2][1] * m[3][3] - m[2][3] * m[3][1];
-    float sub3434 = m[2][2] * m[3][3] - m[2][3] * m[3][2];
-    float sub2412 = m[1][0] * m[3][1] - m[1][1] * m[3][0];
-    float sub2413 = m[1][0] * m[3][2] - m[1][2] * m[3][0];
-    float sub2414 = m[1][0] * m[3][3] - m[1][3] * m[3][0];
-    float sub2423 = m[1][1] * m[3][2] - m[1][2] * m[3][1];
-    float sub2424 = m[1][1] * m[3][3] - m[1][3] * m[3][2];
-    float sub2434 = m[1][2] * m[3][3] - m[1][3] * m[3][2];
-    float sub2312 = m[1][0] * m[2][1] - m[1][1] * m[2][0];
-    float sub2313 = m[1][0] * m[2][2] - m[1][1] * m[2][0];
-    float sub2314 = m[1][0] * m[2][3] - m[1][3] * m[2][0];
-    float sub2323 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
-    float sub2324 = m[1][1] * m[2][3] - m[1][3] * m[2][1];
-    float sub2334 = m[1][2] * m[2][3] - m[1][3] * m[2][2];
-    
-    float sd11 = m[1][1] * sub3434 - m[1][2] * sub3424 + m[1][3] * sub3423;
-    float sd12 = m[1][0] * sub3434 - m[1][2] * sub3414 + m[1][3] * sub3413;
-    float sd13 = m[1][0] * sub3424 - m[1][1] * sub3414 + m[1][3] * sub3412;
-    float sd14 = m[1][0] * sub3423 - m[1][1] * sub3413 + m[1][2] * sub3412;
-    
-    float sd21 = m[0][1] * sub3434 - m[0][2] * sub3424 + m[0][3] * sub3423;
-    float sd22 = m[0][0] * sub3434 - m[0][2] * sub3414 + m[0][3] * sub3413;
-    float sd23 = m[0][0] * sub3424 - m[0][1] * sub3414 + m[0][3] * sub3412;
-    float sd24 = m[0][0] * sub3423 - m[0][1] * sub3413 + m[0][2] * sub3412;
-    
-    float sd31 = m[0][1] * sub2434 - m[0][2] * sub2424 + m[0][3] * sub2423;
-    float sd32 = m[0][0] * sub2434 - m[0][2] * sub2414 + m[0][3] * sub2413;
-    float sd33 = m[0][0] * sub2424 - m[0][2] * sub2414 + m[0][3] * sub2412;
-    float sd34 = m[0][0] * sub2423 - m[0][1] * sub2413 + m[0][2] * sub2412;
-    
-    float sd41 = m[0][1] * sub2334 - m[0][2] * sub2324 + m[0][3] * sub2323;
-    float sd42 = m[0][0] * sub2334 - m[0][2] * sub2314 + m[0][3] * sub2313;
-    float sd43 = m[0][0] * sub2324 - m[0][1] * sub2314 + m[0][3] * sub2312;
-    float sd44 = m[0][0] * sub2323 - m[0][1] * sub2313 + m[0][2] * sub2312;
-    
-    float devInv = 1.0f / (m[0][0] * sd11 - m[0][1] * sd12 + m[0][2] * sd13 - m[0][3] * sd14);
-    
-    if (devInv == 0.0f){
-        constexpr auto nan{ std::numeric_limits<float>().quiet_NaN() };
+		return Matrix4x4{
+			nan,	nan,	nan,	nan,
+			nan,	nan,	nan,	nan,
+			nan,	nan,	nan,	nan,
+			nan,	nan,	nan,	nan
+		};
+	}
 
-        return Matrix4x4{ nan, nan, nan, nan,
-                            nan, nan, nan, nan,
-                            nan, nan, nan, nan,
-                            nan, nan, nan, nan
-        };
-    }
-    
-    return Matrix4x4{
-        sd11 * devInv, -sd12 * devInv, sd13 * devInv, -sd14 * devInv,
-        -sd21 * devInv, sd22 * devInv, -sd23 * devInv, sd24 * devInv,
-        sd31 * devInv, -sd32 * devInv, sd33 * devInv, -sd34 * devInv,
-        -sd41 * devInv, sd42 * devInv, -sd43 * devInv, sd44 * devInv
-    };
+}
+
+inline bool Matrix4x4::Invert()
+{
+	/*
+		Comment : 전치를 하는 이유
+		내 렌더러는 보기 쉽게 하기 위해 row major 를 사용하고있다. ( m[row][column] 형식이다 )
+		하지만, 역행렬을 계산하는 방식은 대부분 column major 형식으로만 되어있다..
+		그래서 계산하기전 row major 를 column major 로 변경해주기 위해 전치시킨다. ( 계산식을 해괴하게 만드는것보단 보기좋을것이다 )
+	*/
+
+	Transpose();
+
+	float sub3412 = m[2][0] * m[3][1] - m[2][1] * m[3][0];
+	float sub3413 = m[2][0] * m[3][2] - m[2][2] * m[3][0];
+	float sub3414 = m[2][0] * m[3][3] - m[2][3] * m[3][0];
+	float sub3423 = m[2][1] * m[3][2] - m[2][2] * m[3][1];
+	float sub3424 = m[2][1] * m[3][3] - m[2][3] * m[3][1];
+	float sub3434 = m[2][2] * m[3][3] - m[2][3] * m[3][2];
+	float sub2412 = m[1][0] * m[3][1] - m[1][1] * m[3][0];
+	float sub2413 = m[1][0] * m[3][2] - m[1][2] * m[3][0];
+	float sub2414 = m[1][0] * m[3][3] - m[1][3] * m[3][0];
+	float sub2423 = m[1][1] * m[3][2] - m[1][2] * m[3][1];
+	float sub2424 = m[1][1] * m[3][3] - m[1][3] * m[3][2];
+	float sub2434 = m[1][2] * m[3][3] - m[1][3] * m[3][2];
+	float sub2312 = m[1][0] * m[2][1] - m[1][1] * m[2][0];
+	float sub2313 = m[1][0] * m[2][2] - m[1][1] * m[2][0];
+	float sub2314 = m[1][0] * m[2][3] - m[1][3] * m[2][0];
+	float sub2323 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
+	float sub2324 = m[1][1] * m[2][3] - m[1][3] * m[2][1];
+	float sub2334 = m[1][2] * m[2][3] - m[1][3] * m[2][2];
+
+	float sd11 = m[1][1] * sub3434 - m[1][2] * sub3424 + m[1][3] * sub3423;
+	float sd12 = m[1][0] * sub3434 - m[1][2] * sub3414 + m[1][3] * sub3413;
+	float sd13 = m[1][0] * sub3424 - m[1][1] * sub3414 + m[1][3] * sub3412;
+	float sd14 = m[1][0] * sub3423 - m[1][1] * sub3413 + m[1][2] * sub3412;
+
+	float sd21 = m[0][1] * sub3434 - m[0][2] * sub3424 + m[0][3] * sub3423;
+	float sd22 = m[0][0] * sub3434 - m[0][2] * sub3414 + m[0][3] * sub3413;
+	float sd23 = m[0][0] * sub3424 - m[0][1] * sub3414 + m[0][3] * sub3412;
+	float sd24 = m[0][0] * sub3423 - m[0][1] * sub3413 + m[0][2] * sub3412;
+
+	float sd31 = m[0][1] * sub2434 - m[0][2] * sub2424 + m[0][3] * sub2423;
+	float sd32 = m[0][0] * sub2434 - m[0][2] * sub2414 + m[0][3] * sub2413;
+	float sd33 = m[0][0] * sub2424 - m[0][2] * sub2414 + m[0][3] * sub2412;
+	float sd34 = m[0][0] * sub2423 - m[0][1] * sub2413 + m[0][2] * sub2412;
+
+	float sd41 = m[0][1] * sub2334 - m[0][2] * sub2324 + m[0][3] * sub2323;
+	float sd42 = m[0][0] * sub2334 - m[0][2] * sub2314 + m[0][3] * sub2313;
+	float sd43 = m[0][0] * sub2324 - m[0][1] * sub2314 + m[0][3] * sub2312;
+	float sd44 = m[0][0] * sub2323 - m[0][1] * sub2313 + m[0][2] * sub2312;
+
+	float devInv = 1.0f / (m[0][0] * sd11 - m[0][1] * sd12 + m[0][2] * sd13 - m[0][3] * sd14);
+
+	if (devInv == 0.0f) 
+		return false;
+
+	m[0][0] = sd11 * devInv;	m[0][1] = -sd12 * devInv;	m[0][2] = sd13 * devInv;	m[0][3] = -sd14 * devInv;
+	m[1][0] = -sd21 * devInv;	m[1][1] = sd22 * devInv;	m[1][2] = -sd23 * devInv;	m[1][3] = sd24 * devInv;
+	m[2][0] = sd31 * devInv;	m[2][1] = -sd32 * devInv;	m[2][2] = sd33 * devInv;	m[2][3] = -sd34 * devInv;
+	m[3][0] = -sd41 * devInv;	m[3][1] = sd42 * devInv;	m[3][2] = -sd43 * devInv;	m[3][3] = sd44 * devInv;
+
+	return true;
 }
 
 float Matrix4x4::GetDeterminant() const {

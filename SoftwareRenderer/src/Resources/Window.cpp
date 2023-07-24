@@ -11,8 +11,6 @@ LRESULT __MainWndPoc(HWND handle, UINT msg, WPARAM wParam, LPARAM lParam) {
 Window* Window::CreateWindowFactory(HINSTANCE hInstance, const std::wstring_view& windowName, uint32_t width, uint32_t height) {
 	Window* window{ managedWindows.emplace_back(new Window{}) };
 
-	SetLastError(99);
-
 	WNDCLASS wc;
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = __MainWndPoc;
