@@ -137,6 +137,7 @@ Matrix4x4 Matrix4x4::Inverse() const {
 		};
 	}
 
+	return m;
 }
 
 inline bool Matrix4x4::Invert()
