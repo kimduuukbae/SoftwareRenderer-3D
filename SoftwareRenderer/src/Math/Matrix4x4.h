@@ -127,7 +127,7 @@ Matrix4x4 Matrix4x4::Inverse() const {
 	bool bIsSuccess = m.Invert();
 
 	if (bIsSuccess == false) {
-		constexpr auto nan = std::numeric_limits<float>::max();
+		constexpr auto nan = std::numeric_limits<float>::quiet_NaN();
 
 		return Matrix4x4{
 			nan,	nan,	nan,	nan,
