@@ -26,9 +26,13 @@ struct Matrix4x4 {
 		   float m31, float m32, float m33, float m34,
 		   float m41, float m42, float m43, float m44);
 
+	/* add by components */
 	inline Matrix4x4 operator*(const Matrix4x4& other) const;
 	inline Matrix4x4 operator+(const Matrix4x4& other) const;
 	inline Matrix4x4 operator-(const Matrix4x4& other) const;
+
+	inline Matrix4x4 Multiply(const Matrix4x4& other);
+	inline Vector4 Multiply(const Vector4& other);
 
 	inline bool operator==(const Matrix4x4& other) const;
 	inline bool operator!=(const Matrix4x4& other) const;
@@ -100,6 +104,38 @@ Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const {
 	}
 
 	return newMat;
+}
+
+inline Matrix4x4 Matrix4x4::Multiply(const Matrix4x4& other) {
+	Matrix4x4 __dest{};
+
+	/* .........
+	__dest.m[0][0] = m[0][0] * other.m[0][0] + m[0][1] * other.m[1][0] + m[0][2] * other.m[2][0] + m[0][3] * other.m[3][0];
+	__dest.m[0][1] = m[0][0] * other.m[0][1] + m[0][1] * other.m[1][1] + m[0][2] * other.m[2][1] + m[0][3] * other.m[3][1];
+
+	__dest.m[1][0] = m[1][0] * other.m[0][0] + m[1][1] * other.m[1][0] + m[1][2] * other.m[2][0] + m[1][3] * other.m[3][0];
+	*/
+
+	
+	for (size_t i{ 0 }; i < 4; ++i)
+		for (size_t j{ 0 }; j < 4; ++j)
+			__dest.m[i][j] = m[i][0] * other.m[0][j] + m[i][1] * other.m[1][j] + m[i][2] * other.m[2][j] + m[i][3] * other.m[3][j];
+
+	return __dest;
+}
+
+/// <summary>
+///	CHECK ! POST MULTIPLIED !!!, PRE-MULTIPLIED IS IMPL BY VECTOR4!!!!!!
+/// </summary>
+/// <param name="other"></param>
+/// <returns></returns>
+inline Vector4 Matrix4x4::Multiply(const Vector4& other) {
+	Vector4 __dest{other};
+
+	__dest.x = m[0][0] * other.x + m[0][1] * other.y + m[0][2] * other.z + m[0][3] * other.w;
+	__dest.y = m[1][0] * other.x + m[1][1] * other.y + m[1][2] * other.z + m[1][3] * other.w;
+	__dest.z = m[2][0] * other.x + m[2][1] * other.y + m[2][2] * other.z + m[2][3] * other.w;
+	__dest.w = m[3][0] * other.x + m[3][1] * other.y + m[3][2] * other.z + m[3][3] * other.w;
 }
 
 bool Matrix4x4::operator==(const Matrix4x4& other) const {
