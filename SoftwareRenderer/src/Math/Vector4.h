@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Vector3.h"
+#include "Matrix4x4.h"
+
+
+struct Matrix4x4;
 
 /*
 	Homogeneous Vector or Color
@@ -31,8 +35,8 @@ __declspec(align(16)) struct Vector4 {
 
 	inline Vector4();
 	inline Vector4(float x, float y, float z, float w);
-	inline explicit Vector4(const Vector3& newVector, float newW);
-	inline explicit Vector4(const Vector4& newVector);
+	inline Vector4(const Vector3& newVector, float newW);
+	inline Vector4(const Vector4& newVector);
 
 	/* element operations */
 	inline void Add(const Vector4& other);
@@ -43,6 +47,7 @@ __declspec(align(16)) struct Vector4 {
 	inline Vector4 operator+(const Vector4& other);
 	inline Vector4 operator-(const Vector4& other);
 	inline Vector4 operator*(const Vector4& other);
+	inline Vector4 operator*(const Matrix4x4& other);
 	inline Vector4 operator/(const Vector4& other);
 	inline Vector4 operator/(float scalar);
 
@@ -136,6 +141,18 @@ Vector4 Vector4::operator-(const Vector4& other) {
 
 Vector4 Vector4::operator*(const Vector4& other) {
 	return { x * other.x, y * other.y, z * other.z, w * other.w };
+}
+
+Vector4 Vector4::operator*(const Matrix4x4& other)
+{
+	Vector4 __dest{ };
+
+	__dest.x = x * other.m[0][0] + y * other.m[1][0] + z * other.m[2][0] + w * other.m[3][0];
+	__dest.y = x * other.m[0][1] + y * other.m[1][1] + z * other.m[2][1] + w * other.m[3][1];
+	__dest.z = x * other.m[0][2] + y * other.m[1][2] + z * other.m[2][2] + w * other.m[3][2];
+	__dest.w = x * other.m[0][3] + y * other.m[1][3] + z * other.m[2][3] + w * other.m[3][3];
+
+	return __dest;
 }
 
 Vector4 Vector4::operator/(const Vector4& other) {
