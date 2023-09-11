@@ -8,6 +8,8 @@ public:
 	uint64_t GetBufferSize() const;
 	void* GetBuffer() const;
 
+	virtual ~BufferBase() = default;
+
 protected:
 	uint64_t __bufferSize;
 	void* __buffer;
